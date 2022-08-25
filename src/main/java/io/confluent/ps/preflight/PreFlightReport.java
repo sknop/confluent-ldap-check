@@ -4,6 +4,7 @@ import static java.lang.System.out;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class PreFlightReport {
 
@@ -14,7 +15,8 @@ public class PreFlightReport {
   }
 
   public void print() {
-    out.println(results);
+    out.println("Results:");
+    out.println(results.stream().map(CheckResult::toString).collect(Collectors.joining("\n")));
   }
 
   public void addAll(List<CheckResult> results) {

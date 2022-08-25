@@ -1,0 +1,8 @@
+ldap-group-manager:
+  users:
+    - cn=alice,ou=it,ou=users,dc=confluent,dc=io:
+        groups:
+          - ops
+    - cn=charlie,ou=it,ou=users,dc=confluent,dc=io:
+        groups:
+          - ops1
