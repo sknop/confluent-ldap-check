@@ -1,0 +1,31 @@
+dn: ou=users,{{ LDAP_BASE_DN }}
+objectClass: organizationalUnit
+ou: Users
+
+dn: ou=it,ou=users,{{ LDAP_BASE_DN }}
+objectClass: organizationalUnit
+ou: IT
+
+dn: ou=business,ou=users,{{ LDAP_BASE_DN }}
+objectClass: organizationalUnit
+ou: Business
+
+dn: ou=bigdata,{{ LDAP_BASE_DN }}
+objectClass: organizationalUnit
+ou: BigData
+
+dn: ou=cp,ou=bigdata,{{ LDAP_BASE_DN }}
+objectClass: organizationalUnit
+ou: CP
+
+dn: ou=techx,ou=bigdata,{{ LDAP_BASE_DN }}
+objectClass: organizationalUnit
+ou: TechX
+
+dn: ou=groups,ou=bigdata,{{ LDAP_BASE_DN }}
+objectClass: organizationalUnit
+ou: Groups
+
+dn: ou=services,ou=bigdata,{{ LDAP_BASE_DN }}
+objectClass: organizationalUnit
+ou: Services

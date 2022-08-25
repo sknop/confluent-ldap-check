@@ -1,0 +1,15 @@
+dn: cn=donald,ou=business,ou=users,{{ LDAP_BASE_DN }}
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: shadowAccount
+uid: donald
+sn: Duck
+givenName: Donald
+cn: donald
+displayName: Donald Duck
+uidNumber: 10013
+gidNumber: 20
+userPassword: donald-secret
+gecos: donald
+loginShell: /bin/bash
+homeDirectory: /home/donald

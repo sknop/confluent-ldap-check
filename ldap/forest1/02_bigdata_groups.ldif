@@ -1,0 +1,23 @@
+dn: cn=ops,ou=groups,ou=bigdata,{{ LDAP_BASE_DN }}
+objectClass: top
+objectClass: posixGroup
+cn: ops
+gidNumber: 10
+
+dn: cn=dev,ou=groups,ou=bigdata,{{ LDAP_BASE_DN }}
+objectClass: top
+objectClass: posixGroup
+cn: dev
+gidNumber: 11
+
+dn: cn=platform,ou=bigdata,{{ LDAP_BASE_DN }}
+objectClass: top
+objectClass: posixGroup
+cn: platform
+gidNumber: 12
+
+dn: cn=apps,ou=bigdata,{{ LDAP_BASE_DN }}
+objectClass: top
+objectClass: posixGroup
+cn: apps
+gidNumber: 13

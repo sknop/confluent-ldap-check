@@ -1,0 +1,5 @@
+dn: cn=internal,ou=users,{{ LDAP_BASE_DN }}
+objectClass: top
+objectClass: posixGroup
+cn: interal
+gidNumber: 20

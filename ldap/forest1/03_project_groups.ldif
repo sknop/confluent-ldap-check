@@ -1,0 +1,12 @@
+dn: cn=proj_abc,ou=it,ou=users,{{ LDAP_BASE_DN }}
+objectClass: top
+objectClass: posixGroup
+cn: proj_abc
+gidNumber: 50
+
+dn: cn=proj_xyz,ou=it,ou=users,{{ LDAP_BASE_DN }}
+objectClass: top
+objectClass: posixGroup
+cn: proj_xyz
+gidNumber: 51
+

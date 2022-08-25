@@ -1,0 +1,15 @@
+dn: cn=fritz,ou=it,ou=users,{{ LDAP_BASE_DN }}
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: shadowAccount
+uid: fritz
+sn: Walter
+givenName: Fritz
+cn: fritz
+displayName: Fritz Walter
+uidNumber: 10021
+gidNumber: 20
+userPassword: fritz-secret
+gecos: fritz
+loginShell: /bin/bash
+homeDirectory: /home/fritz

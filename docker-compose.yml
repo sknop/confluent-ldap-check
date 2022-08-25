@@ -1,0 +1,23 @@
+version: '3.8'
+services:
+  # LDAP
+  ldap:
+    image: osixia/openldap:1.3.0
+    environment:
+      LDAP_ORGANISATION: "Confluent"
+      LDAP_DOMAIN: "confluent.io"
+    command: "--copy-service"
+    ports:
+      - 389:389
+      - 636:636
+    volumes:
+      - ./ldap/forest1:/container/service/slapd/assets/config/bootstrap/ldif/custom
+  ## remember that the username is CN=admin,DC=confluent,DC=io and the password is admin
+  ldap-admin:
+    image: osixia/phpldapadmin:0.9.0
+    environment:
+      - PHPLDAPADMIN_LDAP_HOSTS=ldap
+    ports:
+      - 6443:443
+    depends_on:
+      - ldap

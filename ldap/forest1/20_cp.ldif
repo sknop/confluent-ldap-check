@@ -1,0 +1,111 @@
+dn: cn=mds,ou=cp,ou=bigdata,{{ LDAP_BASE_DN }}
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: shadowAccount
+uid: mds
+sn: Confluent MDS
+givenName: MDS
+cn: mds
+displayName: Confluent MDS
+uidNumber: 20000
+gidNumber: 12
+userPassword: password
+gecos: mds
+loginShell: /bin/bash
+homeDirectory: /home/mds
+
+dn: cn=kafka_broker,ou=cp,ou=bigdata,{{ LDAP_BASE_DN }}
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: shadowAccount
+uid: kafka_broker
+sn: broker
+givenName: Kafka Broker
+cn: kafka_broker
+displayName: Kafka Broker
+uidNumber: 20001
+gidNumber: 12
+userPassword: password
+gecos: kafka_broker
+loginShell: /bin/bash
+homeDirectory: /home/kafka_broker
+
+dn: cn=schema_registry,ou=cp,ou=bigdata,{{ LDAP_BASE_DN }}
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: shadowAccount
+uid: schema_registry
+sn: SR
+givenName: SchemaRegistry
+cn: schema_registry
+displayName: SchemaRegistry
+uidNumber: 20002
+gidNumber: 12
+userPassword: password
+gecos: schema_registry
+loginShell: /bin/bash
+homeDirectory: /home/schema_registry
+
+dn: cn=kafka_connect,ou=cp,ou=bigdata,{{ LDAP_BASE_DN }}
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: shadowAccount
+uid: kafka_connect
+sn: connect
+givenName: Kafka Connect
+cn: kafka_connect
+displayName: Kafka Connect
+uidNumber: 20003
+gidNumber: 12
+userPassword: password
+gecos: kafka_connect
+loginShell: /bin/bash
+homeDirectory: /home/kafka_connect
+
+dn: cn=kafka_rest,ou=cp,ou=bigdata,{{ LDAP_BASE_DN }}
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: shadowAccount
+uid: kafka_rest
+sn: rest
+givenName: kafka rest
+cn: kafka_rest
+displayName: Kafka REST
+uidNumber: 20004
+gidNumber: 12
+userPassword: password
+gecos: ksql
+loginShell: /bin/bash
+homeDirectory: /home/ksql
+
+dn: cn=ksql,ou=cp,ou=bigdata,{{ LDAP_BASE_DN }}
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: shadowAccount
+uid: ksql
+sn: ksql
+givenName: ksql
+cn: ksql
+displayName: ksql
+uidNumber: 20005
+gidNumber: 12
+userPassword: password
+gecos: ksql
+loginShell: /bin/bash
+homeDirectory: /home/ksql
+
+dn: cn=control_center,ou=cp,ou=bigdata,{{ LDAP_BASE_DN }}
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: shadowAccount
+uid: control_center
+sn: C3
+givenName: control_center
+cn: control_center
+displayName: control_center
+uidNumber: 20006
+gidNumber: 12
+userPassword: password
+gecos: control_center
+loginShell: /bin/bash
+homeDirectory: /home/control_center

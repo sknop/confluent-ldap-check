@@ -1,0 +1,31 @@
+dn: cn=app1,ou=services,ou=bigdata,{{ LDAP_BASE_DN }}
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: shadowAccount
+uid: app1
+sn: App
+givenName: App
+cn: app1
+displayName: App Sheen
+uidNumber: 30001
+gidNumber: 13
+userPassword: password
+gecos: app1
+loginShell: /bin/bash
+homeDirectory: /home/app1
+
+dn: cn=app2,ou=services,ou=bigdata,{{ LDAP_BASE_DN }}
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: shadowAccount
+uid: app2
+sn: App
+givenName: App
+cn: app2
+displayName: App Sheen
+uidNumber: 30002
+gidNumber: 13
+userPassword: password
+gecos: app2
+loginShell: /bin/bash
+homeDirectory: /home/app2

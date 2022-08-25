@@ -1,0 +1,15 @@
+dn: cn=dbx,ou=techx,ou=bigdata,{{ LDAP_BASE_DN }}
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: shadowAccount
+uid: DBX
+sn: DBX
+givenName: DBX
+cn: dbx
+displayName: Other DB
+uidNumber: 40001
+gidNumber: 12
+userPassword: password
+gecos: dbx
+loginShell: /bin/bash
+homeDirectory: /home/dbx
