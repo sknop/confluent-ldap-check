@@ -12,6 +12,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.List;
 import java.util.Properties;
 import java.util.Set;
@@ -90,7 +92,13 @@ public class LdapGroupManagerPreFlight
             var results = new ArrayList<CheckResult>();
             final var title = "ldap-group-manager: find groups for [" + username + "]";
             try {
-                component.searchAndProcessResults();
+                var users = component.searchAndProcessResults();
+
+                var allGroups = listAllGroupsAndUsers(component, users);
+                for (var group : allGroups.entrySet()) {
+                    System.out.println(group);
+                }
+
                 var found = component.groups(username);
 
                 final var expected = groups;
@@ -115,6 +123,26 @@ public class LdapGroupManagerPreFlight
                 results.add(new CheckResult(title, e));
             }
             return results;
+        }
+
+        private Map<String, Set<String>> listAllGroupsAndUsers(LdapGroupManager component, Set<String> users) {
+            Map<String, Set<String>> allGroups = new HashMap<>();
+
+            for (var user: users) {
+                var groups = component.groups(user);
+                for (var group: groups) {
+                    if (allGroups.containsKey(group)) {
+                        allGroups.get(group).add(user);
+                    }
+                    else {
+                        Set<String> userForGroup = new HashSet<>();
+                        userForGroup.add(user);
+                        allGroups.put(group, userForGroup);
+                    }
+                }
+            }
+
+            return allGroups;
         }
     }
 }
