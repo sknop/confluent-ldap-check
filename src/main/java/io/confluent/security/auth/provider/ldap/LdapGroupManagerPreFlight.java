@@ -90,15 +90,9 @@ public class LdapGroupManagerPreFlight
             var results = new ArrayList<CheckResult>();
             final var title = "ldap-group-manager: find groups for [" + username + "]";
             try {
-                var result = component.searchAndProcessResults();
-
-                System.out.println("**************************");
-                for (var entry: result) {
-                  System.out.println(entry);
-                }
-                System.out.println("**************************");
-
+                component.searchAndProcessResults();
                 var found = component.groups(username);
+
                 final var expected = groups;
                 if (found.containsAll(expected)) {
                     results.add(new CheckResult(title));
