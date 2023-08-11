@@ -67,7 +67,8 @@ abstract public class LdapVerifierBase {
         throw new IllegalArgumentException("Cannot find 'kafka_broker_custom_properties' under " + Arrays.toString(possibilities));
     }
 
-    private LdapConfig createLdapConfigWithPotentialReplacement(Properties properties) throws IOException {
+    @Contract("_ -> new")
+    private @NotNull LdapConfig createLdapConfigWithPotentialReplacement(Properties properties) throws IOException {
         if (replacementFile != null) {
             Properties replacements = new Properties();
 
@@ -82,8 +83,10 @@ abstract public class LdapVerifierBase {
 
                 var matcher = pattern.matcher(value);
                 if (matcher.matches()) {
-                    var match = matcher.group(0);
-                    if (replacements.contains(match)) {
+                    // var line = matcher.group(0);
+                    var match = matcher.group(1);
+
+                    if (replacements.containsKey(match)) {
                         properties.put(key, value.replace(match, replacements.getProperty(match)));
                     }
                 }
