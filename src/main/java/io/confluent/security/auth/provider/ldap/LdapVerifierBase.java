@@ -39,7 +39,7 @@ abstract public class LdapVerifierBase {
     }
 
     @Option(names = {"-r", "--replacement-file"},
-            description = "File that contains YAML replacements in property format") String replacementFile;
+            description = "File that contains Jinja2 replacements in property format") String replacementFile;
 
     protected LdapConfig loadProperties() throws IOException {
         if (exclusive.configFile != null) {
