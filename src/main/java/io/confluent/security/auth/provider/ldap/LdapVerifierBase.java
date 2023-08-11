@@ -15,7 +15,6 @@ import java.util.Arrays;
 import java.util.Properties;
 import java.util.Spliterator;
 import java.util.Spliterators;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.StreamSupport;
 
