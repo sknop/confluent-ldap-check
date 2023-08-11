@@ -25,6 +25,7 @@ import java.util.stream.StreamSupport;
         parameterListHeading = "%nParameters:%n%n",
         optionListHeading    = "%nOptions:%n%n",
         mixinStandardHelpOptions = true,
+        usageHelpAutoWidth = true,
         version = "1.0")
 abstract public class LdapVerifierBase {
 

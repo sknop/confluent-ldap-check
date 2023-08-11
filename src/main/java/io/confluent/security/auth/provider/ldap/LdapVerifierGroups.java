@@ -52,6 +52,8 @@ public class LdapVerifierGroups extends LdapVerifierBase implements Callable<Int
     }
 
     public static void main(String... args) {
-        new CommandLine(new LdapVerifierGroups()).execute(args);
+        new CommandLine(new LdapVerifierGroups()).
+                setUsageHelpLongOptionsMaxWidth(40).
+                execute(args);
     }
 }
