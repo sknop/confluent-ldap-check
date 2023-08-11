@@ -15,6 +15,8 @@ import java.util.Arrays;
 import java.util.Properties;
 import java.util.Spliterator;
 import java.util.Spliterators;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.StreamSupport;
 
 @CommandLine.Command(
@@ -37,18 +39,18 @@ abstract public class LdapVerifierBase {
         @Option(names = {"-i", "--ansible-inventory"}, description = "Ansible inventory file" ) String inventoryFile;
     }
 
+    @Option(names = {"-r", "--replacement-file"},
+            description = "File that contains YAML replacements in property format") String replacementFile;
+
     protected LdapConfig loadProperties() throws IOException {
         if (exclusive.configFile != null) {
-            System.out.printf("Loading config File '%s'", exclusive.configFile);
-
             return loadConfigFile(Path.of(exclusive.configFile));
         }
         else if (exclusive.inventoryFile != null) {
-            System.out.printf("Loading Ansible inventory file '%s'", exclusive.inventoryFile);
-
             return loadInventoryFile(Path.of(exclusive.inventoryFile));
         }
         else {
+            // Should not be able to happen, but a bit defensive programming does not hurt
             System.err.println("Need to choose either config or inventory file");
             System.exit(1);
         }
@@ -65,6 +67,32 @@ abstract public class LdapVerifierBase {
         throw new IllegalArgumentException("Cannot find 'kafka_broker_custom_properties' under " + Arrays.toString(possibilities));
     }
 
+    private LdapConfig createLdapConfigWithPotentialReplacement(Properties properties) throws IOException {
+        if (replacementFile != null) {
+            Properties replacements = new Properties();
+
+            try (final var inStream = Files.newInputStream(Path.of(replacementFile))) {
+                replacements.load(inStream);
+            }
+
+            Pattern pattern = Pattern.compile(".*(\\{\\{.*}}).*");
+            for (var entry : properties.entrySet()) {
+                String key = (String) entry.getKey();
+                String value = (String) entry.getValue();
+
+                var matcher = pattern.matcher(value);
+                if (matcher.matches()) {
+                    var match = matcher.group(0);
+                    if (replacements.contains(match)) {
+                        properties.put(key, value.replace(match, replacements.getProperty(match)));
+                    }
+                }
+            }
+
+        }
+        return new LdapConfig(properties);
+    }
+
     /**
         Read from a standard config file
 
@@ -72,10 +100,10 @@ abstract public class LdapVerifierBase {
      */
     @Contract("_ -> new")
     private @NotNull LdapConfig loadConfigFile(Path configPath) throws IOException {
-        Properties props = new Properties();
+        Properties properties = new Properties();
         try (final var inStream = Files.newInputStream(configPath)) {
-            props.load(inStream);
-            return new LdapConfig(props);
+            properties.load(inStream);
+            return createLdapConfigWithPotentialReplacement(properties);
         }
     }
 
@@ -104,6 +132,6 @@ abstract public class LdapVerifierBase {
         Properties properties = new Properties();
         ldapEntries.forEach((entry) -> properties.put(entry.getKey(), entry.getValue().asText()));
 
-        return new LdapConfig(properties);
+        return createLdapConfigWithPotentialReplacement(properties);
     }
 }
