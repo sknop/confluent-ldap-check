@@ -27,7 +27,7 @@ import java.util.stream.StreamSupport;
         version = "1.0")
 abstract public class LdapVerifierBase {
 
-    @CommandLine.ArgGroup(exclusive = true, multiplicity = "1")
+    @CommandLine.ArgGroup(multiplicity = "1")
     Exclusive exclusive;
 
     private final ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
