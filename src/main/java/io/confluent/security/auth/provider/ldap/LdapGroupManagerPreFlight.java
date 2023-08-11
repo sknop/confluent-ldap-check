@@ -31,6 +31,7 @@ public class LdapGroupManagerPreFlight
         var checksPath = Path.of(args[1]);
         var preFlight = new LdapGroupManagerPreFlight();
         var config = preFlight.loadConfig(configPath);
+
         var component = preFlight.build(config);
         var checkList = loadChecks(checksPath);
         PreFlightReport report = preFlight.run(component, checkList);
