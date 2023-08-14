@@ -58,7 +58,7 @@ public class AuthenticationVerifier extends LdapVerifierBase implements Callable
         env.put(LdapContext.SECURITY_CREDENTIALS, password);
 
         try (var ignored = autoCloseable(new InitialDirContext(env))) {
-            System.out.printf("User %s has been authenticated", userName);
+            System.out.printf("User %s has been authenticated%n", userName);
         } catch (Exception e) {
             if (e instanceof CommunicationException) {
                 System.err.printf("LDAP bind failed for user DN %s", userDn);
