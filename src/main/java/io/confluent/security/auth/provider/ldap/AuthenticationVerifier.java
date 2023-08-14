@@ -35,14 +35,14 @@ public class AuthenticationVerifier extends LdapVerifierBase implements Callable
         NamingEnumeration<SearchResult> enumeration = context.search(config.userSearchBase, config.userDnSearchFilter, filterArgs,searchControls);
 
         if (!enumeration.hasMore()) {
-            System.err.printf("User '%s' not found %n", userName);
+            System.err.printf("User '%s' not found %n%n", userName);
             System.exit(-1);
         }
 
         SearchResult result = enumeration.next();
 
         if (enumeration.hasMore()) {
-            System.err.printf("Search found multiple entries for user '%s'", userName);
+            System.err.printf("Search found multiple entries for user '%s'%n", userName);
             System.exit(-2);
         }
 
@@ -61,9 +61,9 @@ public class AuthenticationVerifier extends LdapVerifierBase implements Callable
             System.out.printf("User %s has been authenticated%n", userName);
         } catch (Exception e) {
             if (e instanceof CommunicationException) {
-                System.err.printf("LDAP bind failed for user DN %s", userDn);
+                System.err.printf("LDAP bind failed for user DN %s%n", userDn);
             } else {
-                System.err.printf("LDAP bind failed for user DN %s with specified password", userDn);
+                System.err.printf("LDAP bind failed for user DN %s with specified password%n", userDn);
             }
 
             System.exit(3);
