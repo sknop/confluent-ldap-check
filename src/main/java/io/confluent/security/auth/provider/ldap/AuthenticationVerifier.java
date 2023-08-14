@@ -38,10 +38,6 @@ public class AuthenticationVerifier extends LdapVerifierBase implements Callable
     @Option(names = {"-u", "--username"}, required = true, description = "Username") String userName;
     @Option(names = {"-p", "--password"}, required = true, arity = "0..1", interactive = true, description = "Password") String password;
 
-    private AutoCloseable autoCloseable(InitialDirContext context) {
-        return context::close;
-    }
-
     private String getUserDn(@NotNull LdapConfig config) throws NamingException {
         var env = config.ldapContextEnvironment;
 
