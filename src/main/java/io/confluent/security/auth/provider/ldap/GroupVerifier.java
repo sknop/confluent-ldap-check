@@ -3,7 +3,7 @@ package io.confluent.security.auth.provider.ldap;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import org.apache.kafka.common.utils.Time;
-2import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.NotNull;
 import picocli.CommandLine;
 import picocli.CommandLine.Option;
 
