@@ -16,7 +16,7 @@ import java.util.concurrent.Callable;
 @CommandLine.Command(name = "GroupVerifier")
 public class GroupVerifier extends LdapVerifierBase implements Callable<Integer> {
 
-    @Option(names = "--json", description="Enable JSON output") boolean jsonOutput = false;
+    @Option(names = "--yaml", description="Enable YAML output") boolean yamlOutput = false;
 
     public LdapGroupManager build(LdapConfig config) {
         return new LdapGroupManager(config, Time.SYSTEM);
@@ -42,7 +42,7 @@ public class GroupVerifier extends LdapVerifierBase implements Callable<Integer>
         return allGroups;
     }
 
-    private void printJson(Map<String, Set<String>> groups) throws IOException {
+    private void printYAML(Map<String, Set<String>> groups) throws IOException {
         ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
         mapper.writeValue(System.out, groups);
     }
@@ -64,8 +64,8 @@ public class GroupVerifier extends LdapVerifierBase implements Callable<Integer>
         var users = groupManager.searchAndProcessResults();
         var groups = listAllGroupsAndUsers(groupManager, users);
 
-        if (jsonOutput) {
-            printJson(groups);
+        if (yamlOutput) {
+            printYAML(groups);
         }
         else {
             printPlain(groups);
