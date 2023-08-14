@@ -1,7 +1,6 @@
 package io.confluent.security.auth.provider.ldap;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import org.apache.kafka.common.utils.Time;
 import picocli.CommandLine;
