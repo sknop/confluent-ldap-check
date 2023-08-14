@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>io.confluent.ps</groupId>
-    <artifactId>preflight-check</artifactId>
+    <artifactId>confluent-ldap-check</artifactId>
     <version>0.1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
@@ -16,6 +16,7 @@
         <jackson.dataformat.version>2.15.2</jackson.dataformat.version>
         <picocli.version>4.7.4</picocli.version>
         <maven-compiler-plugin-version>3.11.0</maven-compiler-plugin-version>
+        <java.version>17</java.version>
     </properties>
 
     <repositories>
@@ -75,7 +76,7 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>${maven-compiler-plugin-version}</version>
                 <configuration>
-                    <source>17</source>
+                    <source>${java.version}</source>
                     <target>17</target>
                 </configuration>
             </plugin>

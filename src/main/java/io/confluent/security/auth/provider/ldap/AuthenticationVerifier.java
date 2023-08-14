@@ -1,5 +1,6 @@
 package io.confluent.security.auth.provider.ldap;
 
+import org.jetbrains.annotations.NotNull;
 import picocli.CommandLine;
 import picocli.CommandLine.Option;
 
@@ -12,15 +13,13 @@ import javax.naming.ldap.LdapContext;
 import java.util.Hashtable;
 import java.util.concurrent.Callable;
 
-@CommandLine.Command(name = "LdapVerifierAuthentication")
-public class LdapVerifierAuthentication extends LdapVerifierBase implements Callable<Integer> {
+@CommandLine.Command(name = "AuthenticationVerifier")
+public class AuthenticationVerifier extends LdapVerifierBase implements Callable<Integer> {
 
     @Option(names = {"-u", "--username"}, required = true, description = "Username") String userName;
     @Option(names = {"-p", "--password"}, required = true, arity = "0..1", interactive = true, description = "Password") String password;
 
-    @Override
-    public Integer call() throws Exception {
-        LdapConfig config = loadProperties();
+    private String getUserDn(@NotNull LdapConfig config) throws NamingException {
         var env = config.ldapContextEnvironment;
         LdapContext context = new InitialLdapContext(env, null);
 
@@ -43,31 +42,45 @@ public class LdapVerifierAuthentication extends LdapVerifierBase implements Call
             System.exit(-2);
         }
 
-        String userDn = result.getNameInNamespace();
-
         context.close();
 
-        Hashtable<String, String> newEnv = new Hashtable<>(env);
-        newEnv.put(LdapContext.SECURITY_AUTHENTICATION, "simple");
-        newEnv.put(LdapContext.SECURITY_PRINCIPAL, userDn);
-        newEnv.put(LdapContext.SECURITY_CREDENTIALS, password);
+        return result.getNameInNamespace();
+    }
+
+    private void verifyPassword(String userDn, @NotNull LdapConfig config) {
+        Hashtable<String, String> env = new Hashtable<>(config.ldapContextEnvironment);
+        env.put(LdapContext.SECURITY_AUTHENTICATION, "simple");
+        env.put(LdapContext.SECURITY_PRINCIPAL, userDn);
+        env.put(LdapContext.SECURITY_CREDENTIALS, password);
         try {
-            InitialDirContext newContext = new InitialDirContext(newEnv);
-            newContext.close();
+            InitialDirContext context = new InitialDirContext(env);
+            context.close();
+
+            System.out.printf("User %s has been authenticated", userName);
         } catch (NamingException e) {
             if (e instanceof CommunicationException) {
                 System.err.printf("LDAP bind failed for user DN %s", userDn);
             } else {
                 System.err.printf("LDAP bind failed for user DN %s with specified password", userDn);
             }
+
             System.exit(3);
         }
+    }
 
-        return null;
+    @Override
+    public Integer call() throws Exception {
+        LdapConfig config = loadProperties();
+
+        String userDn = getUserDn(config);
+
+        verifyPassword(userDn, config);
+
+        return 0;
     }
 
     public static void main(String... args) {
-        new CommandLine(new LdapVerifierAuthentication()).
+        new CommandLine(new AuthenticationVerifier()).
                 setUsageHelpLongOptionsMaxWidth(40).
                 execute(args);
     }
