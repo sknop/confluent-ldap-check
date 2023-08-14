@@ -3,6 +3,7 @@ package io.confluent.security.auth.provider.ldap;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import org.apache.kafka.common.utils.Time;
+2import org.jetbrains.annotations.NotNull;
 import picocli.CommandLine;
 import picocli.CommandLine.Option;
 
@@ -42,12 +43,12 @@ public class GroupVerifier extends LdapVerifierBase implements Callable<Integer>
         return allGroups;
     }
 
-    private void printYAML(Map<String, Set<String>> groups) throws IOException {
+    private void printYAML(@NotNull Map<String, Set<String>> groups) throws IOException {
         ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
         mapper.writeValue(System.out, groups);
     }
 
-    private void printPlain(Map<String, Set<String>> groups) {
+    private void printPlain(@NotNull Map<String, Set<String>> groups) {
         for (var group : groups.entrySet()) {
             System.out.printf("%s:%n", group.getKey());
             for (var user : group.getValue()) {
