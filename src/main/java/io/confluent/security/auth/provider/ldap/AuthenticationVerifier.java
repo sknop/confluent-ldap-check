@@ -19,6 +19,10 @@ public class AuthenticationVerifier extends LdapVerifierBase implements Callable
     @Option(names = {"-u", "--username"}, required = true, description = "Username") String userName;
     @Option(names = {"-p", "--password"}, required = true, arity = "0..1", interactive = true, description = "Password") String password;
 
+    private AutoCloseable autoCloseable(InitialDirContext context) {
+        return context::close;
+    }
+
     private String getUserDn(@NotNull LdapConfig config) throws NamingException {
         var env = config.ldapContextEnvironment;
         LdapContext context = new InitialLdapContext(env, null);
@@ -52,12 +56,10 @@ public class AuthenticationVerifier extends LdapVerifierBase implements Callable
         env.put(LdapContext.SECURITY_AUTHENTICATION, "simple");
         env.put(LdapContext.SECURITY_PRINCIPAL, userDn);
         env.put(LdapContext.SECURITY_CREDENTIALS, password);
-        try {
-            InitialDirContext context = new InitialDirContext(env);
-            context.close();
 
+        try (var ignored = autoCloseable(new InitialDirContext(env))) {
             System.out.printf("User %s has been authenticated", userName);
-        } catch (NamingException e) {
+        } catch (Exception e) {
             if (e instanceof CommunicationException) {
                 System.err.printf("LDAP bind failed for user DN %s", userDn);
             } else {
