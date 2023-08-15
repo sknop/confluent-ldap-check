@@ -1,5 +1,6 @@
 package io.confluent.security.auth.provider.ldap;
 
+import io.confluent.ps.ldap_check.ContextAutoClosingWrapper;
 import org.jetbrains.annotations.NotNull;
 import picocli.CommandLine;
 import picocli.CommandLine.Option;
@@ -12,25 +13,6 @@ import javax.naming.ldap.InitialLdapContext;
 import javax.naming.ldap.LdapContext;
 import java.util.Hashtable;
 import java.util.concurrent.Callable;
-import java.util.function.Supplier;
-
-class ContextAutoClosingWrapper<T extends InitialDirContext> implements AutoCloseable, Supplier<InitialDirContext> {
-    private final T context;
-
-    public ContextAutoClosingWrapper(T s) {
-        context = s;
-    }
-
-    @Override
-    public T get() {
-        return context;
-    }
-
-    @Override
-    public void close() throws NamingException {
-        context.close();
-    }
-}
 
 @CommandLine.Command(name = "AuthenticationVerifier")
 public class AuthenticationVerifier extends LdapVerifierBase implements Callable<Integer> {
