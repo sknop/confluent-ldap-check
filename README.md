@@ -11,6 +11,22 @@ These are implemented in two separate classes:
 - io.confluent.security.auth.provider.ldap.GroupVerifier
 - io.confluent.security.auth.provider.ldap.AuthenticationVerifier
 
+You can provide your LDAP configuration in two different ways. 
+
+- Via a configuration file in INIT format (key=value)
+- Via an Ansible inventory file in YAML format
+
+In the latter case, the tool will look at two different locations for the ldap configurations:
+
+    /all/vars/kafka_broker_custom_properties
+    /kafka_broker/vars/kafka_broker_custom_properties
+
+If your configuration is different from these two locations, you can adjust the code in
+
+    LdapVerifierBase::loadInventoryFile
+
+accordingly and please let me know so that I can adjust it (or/and file a pull request).
+
 ## Modules
 
 - confluent-ldap-check
@@ -71,6 +87,8 @@ Options:
 
 ```
 
+LDAP Configuration file and Ansible inventory file are mutually exclusive.
+
 To check if you can authenticate a user, use 
 
 ```shell
@@ -78,10 +96,10 @@ To check if you can authenticate a user, use
 User 'alice' has been authenticated
 ```
 
-Note that you can leave out the password, you will then be interactively prompted for it.
+You can leave out the password, you will then interactively be prompted for it.
 
 The replacement file is useful if your Ansible inventory YAML file contains Jinja2 variables. 
-You can then use the replacement file to populate these variables. Here is an example
+You can then use the replacement file to populate these variables. Here is an example from the CP bootcamp:
 
 ```shell
 {{kafka_broker_truststore_path}}=configs/kafka-truststore.jks
@@ -94,3 +112,9 @@ This is very useful if you use LDAPS and need to provide a truststore file.
 You probably do not want to hardcode the location in your inventory file, but you need to provide the location of
 a local copy. Rather than having to copy the inventory file and replace the entries, just add the location
 to your replacement file.
+
+This code was tested with the model answers from https://github.com/sknop/bootcamp-terraform and the docker-compose configuration provided here.
+
+Happy hacking!
+
+(C) Sven Erik Knop
