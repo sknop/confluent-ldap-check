@@ -179,7 +179,6 @@ public class GroupVerifier extends LdapVerifierBase implements Callable<Integer>
             throw new IllegalArgumentException("Unsupported search mode " + config.searchMode);
         }
 
-        assert groups != null;
         if (yamlOutput) {
             printYAML(groups);
         }
