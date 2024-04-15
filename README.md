@@ -25,7 +25,7 @@ If your configuration is different from these two locations, you can adjust the 
 
     LdapVerifierBase::loadInventoryFile
 
-accordingly and please let me know so that I can adjust it (or/and file a pull request).
+accordingly, please let me know so I can adjust it (or/and file a pull request).
 
 ## Modules
 
