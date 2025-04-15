@@ -11,9 +11,10 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <confluent.version>7.9.0-ce</confluent.version>
+        <confluent.version>7.8.2-ce</confluent.version>
         <jackson.dataformat.version>2.18.3</jackson.dataformat.version>
         <picocli.version>4.7.6</picocli.version>
+        <picocli.version>4.7.4</picocli.version>
         <maven-compiler-plugin-version>3.11.0</maven-compiler-plugin-version>
         <java.version>17</java.version>
         <slf4j.version>2.0.17</slf4j.version>
