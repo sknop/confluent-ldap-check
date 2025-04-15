@@ -1,36 +1,44 @@
-version: '3.8'
 services:
   ldap-check:
     build: .
+    hostname: ldap-check
     environment:
       verifier_type: io.confluent.security.auth.provider.ldap.GroupVerifier
       username: kafka
       password: kafka-secret
 
-      ldap_java_naming_provider_url: ldap://host.docker.internal:9389
-      ldap_java_naming_security_principal: cn=mds,dc=test,dc=com
-      ldap_java_naming_security_credentials: Developer!
+      ldap_java_naming_provider_url: ldap://ldap:389
+      ldap_java_naming_security_principal: cn=admin,dc=confluent,dc=io
+      ldap_java_naming_security_credentials: admin
       ldap_java_naming_security_authentication: simple
 
       ldap_search_mode: GROUPS
 
       ldap_group_search_scope: 2
-      ldap_group_search_base: dc=test,dc=com
+      ldap_group_search_base: ou=groups,ou=bigdata,dc=confluent,dc=io
       ldap_group_object_class: posixGroup
       ldap_group_name_attribute: cn
-      ldap_group_member_attribute_pattern: cn=([^,]*)(?:.*)dc=test,dc=com
-      ldap_group_member_attribute: member
+      ldap_group_member_attribute_pattern: cn=([^,]*),.*
+      ldap_group_member_attribute: memberUid
 
       ldap_user_search_scope: 2
-      ldap_user_search_base: dc=test,dc=com
-      ldap_user_object_class: organizationalRole
+      ldap_user_search_base: dc=confluent,dc=io
+      ldap_user_object_class: inetOrgPerson
       ldap_user_name_attribute: cn
-      ldap_user_memberof_attribute: ""
-      ldap_user_memberof_attribute_pattern: ""
+    depends_on:
+      ldap:
+        condition: service_healthy
 
   # LDAP
   ldap:
     image: osixia/openldap:1.5.0
+    hostname: ldap
+    container_name: ldap
+    healthcheck:
+      test: timeout 10s bash -c ':> /dev/tcp/127.0.0.1/389' || exit 1
+      interval: 30s
+      timeout: 15s
+      retries: 3
     environment:
       LDAP_ORGANISATION: "Confluent"
       LDAP_DOMAIN: "confluent.io"
@@ -43,6 +51,8 @@ services:
   ## remember that the username is CN=admin,DC=confluent,DC=io and the password is admin
   ldap-admin:
     image: osixia/phpldapadmin:0.9.0
+    hostname: ldap-admin
+    container_name: ldap-admin
     environment:
       - PHPLDAPADMIN_LDAP_HOSTS=ldap
     ports:
