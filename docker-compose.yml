@@ -2,6 +2,7 @@ services:
   ldap-check:
     build: .
     hostname: ldap-check
+    container_name: ldap-check
     environment:
       verifier_type: io.confluent.security.auth.provider.ldap.GroupVerifier
       username: kafka
