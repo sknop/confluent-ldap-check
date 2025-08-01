@@ -11,8 +11,8 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <confluent.version>7.8.2-ce</confluent.version>
-        <jackson.dataformat.version>2.17.2</jackson.dataformat.version>
+        <confluent.version>8.0.0-ce</confluent.version>
+        <jackson.dataformat.version>2.19.2</jackson.dataformat.version>
         <picocli.version>4.7.6</picocli.version>
         <picocli.version>4.7.4</picocli.version>
         <maven-compiler-plugin-version>3.11.0</maven-compiler-plugin-version>
@@ -45,6 +45,10 @@
                     <groupId>io.confluent.cloud</groupId>
                     <artifactId>events-schema</artifactId>
                 </exclusion>
+                <exclusion>
+                    <groupId>io.confluent.secure.compute</groupId>
+                    <artifactId>cfltfaas-sdk</artifactId>
+                </exclusion>
             </exclusions>
         </dependency>
         <dependency>
@@ -60,6 +64,16 @@
         <dependency>
             <groupId>com.fasterxml.jackson.dataformat</groupId>
             <artifactId>jackson-dataformat-yaml</artifactId>
+            <version>${jackson.dataformat.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson.dataformat.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
             <version>${jackson.dataformat.version}</version>
         </dependency>
         <dependency>
